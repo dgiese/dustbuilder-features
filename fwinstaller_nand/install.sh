@@ -48,7 +48,7 @@ if [[ -f /mnt/data/boot.img ]]; then
   if [[ -f /mnt/data/rootfs.img ]]; then
 	echo "Checking integrity"
 	md5sum -c firmware.md5sum
-	if [ $? -eq 0 ]; then
+	if [ $? -ne 0 ]; then
 		echo "(!!!) integrity check failed. Firmware files are damaged. Please re-download the firmware. Aborting the installation"
 		exit 1
 	fi 
