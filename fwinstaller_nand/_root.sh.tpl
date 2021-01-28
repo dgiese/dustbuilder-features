@@ -1,5 +1,5 @@
 #!/bin/bash
-if [[ -f /mnt/data/valetudo.bin ]]; then
+if [[ -f /mnt/data/valetudo ]]; then
 	iptables         -F OUTPUT
 	ip6tables        -F OUTPUT
 	iptables  -t nat -F OUTPUT
