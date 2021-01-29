@@ -17,6 +17,7 @@ while :; do
     if [ $? -ne 0 ]; then
         echo "Running Valetudo"
         echo '|/bin/false' > /proc/sys/kernel/core_pattern
+		### ifconfig lo:1 203.0.113.1
         if [ -f "/root/bin/busybox" ]; then
             (
                 # Make valetudo very likely to get killed when out of memory
