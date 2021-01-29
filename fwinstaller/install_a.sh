@@ -8,19 +8,26 @@
 # System_B is marked then as GOOD in order to force the next boot from System_A
 # It needs to be executed with System_B being active
 # This script is intended to be execute in the second step, after install_b has been executed
+DEVICEMODEL="CHANGEDEVICEMODELCHANGE"
 
 echo "---------------------------------------------------------------------------"
 echo " Xiaomi/Roborock/Rockrobo manual Firmware installer Stage 2"
 echo " Copyright 2020 by Dennis Giese [dgiese at dontvacuum.me]"
 echo " Intended to work on v1, s4, s5, s6, t4, t6"
+echo " Version: ${DEVICEMODEL}"
 echo " Use at your own risk"
 echo "---------------------------------------------------------------------------"
 
+grep -xq "^model=${DEVICEMODEL}$" /mnt/default/device.conf
+if [ $? -eq 1 ]; then
+	echo "(!!!) It seems you are trying to run the installer on a $(sed -rn 's/model=(.*)/\1/p' /mnt/default/device.conf) instead of ${DEVICEMODEL}."
+	exit 1
+fi
+
 grep -q "boot_fs=b" /proc/cmdline
-if [ $? -eq 1 ]
-then
-   echo "(!!!) You did not boot into System_B. This installer should be only executed after you run install_b.sh first!"
-   exit 1
+if [ $? -eq 1 ]; then
+	echo "(!!!) You did not boot into System_B. This installer should be only executed after you run install_b.sh first!"
+	exit 1
 fi
 
 md5sum -c firmware.md5sum
