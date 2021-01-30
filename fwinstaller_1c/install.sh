@@ -14,9 +14,9 @@ echo " Version: ${DEVICEMODEL}"
 echo " Use at your own risk"
 echo "---------------------------------------------------------------------------"
 
-grep -xq "^model=${DEVICEMODEL}$" /mnt/default/device.conf
+grep -xq "^model=${DEVICEMODEL}$" /data/config/miio/device.conf
 if [ $? -eq 1 ]; then
-	echo "(!!!) It seems you are trying to run the installer on a $(sed -rn 's/model=(.*)/\1/p' /mnt/default/device.conf) instead of ${DEVICEMODEL}."
+	echo "(!!!) It seems you are trying to run the installer on a $(sed -rn 's/model=(.*)/\1/p' /data/config/miio/device.conf) instead of ${DEVICEMODEL}."
 	exit 1
 fi
 
@@ -42,7 +42,7 @@ if [[ -f /data/boot.img ]]; then
 			exit 1
 		fi
 		
-		set -x
+		#set -x
 		source /usr/bin/config		
 		
 		echo "Start installation ..."
@@ -80,8 +80,7 @@ if [[ -f /data/boot.img ]]; then
 					exit 1
 				fi
 				
-				if [ ! -f /mnt/build.txt ]; then
-				then
+				if [ -f /mnt/build.txt ]; then
 						fw_setenv boot_partition ${BOOT_PARTITION}
 						fw_setenv root_partition ${ROOT_PARTITION}
 						echo "----------------------------------------------------------------------------------"
