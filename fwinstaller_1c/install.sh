@@ -14,16 +14,16 @@ echo " Version: ${DEVICEMODEL}"
 echo " Use at your own risk"
 echo "---------------------------------------------------------------------------"
 
-grep -xq "^model=${DEVICEMODEL}$" /data/config/miio/device.conf
+grep -xq "^model=${DEVICEMODEL}$" /tmp/config/miio/device.conf
 if [ $? -eq 1 ]; then
-	echo "(!!!) It seems you are trying to run the installer on a $(sed -rn 's/model=(.*)/\1/p' /data/config/miio/device.conf) instead of ${DEVICEMODEL}."
+	echo "(!!!) It seems you are trying to run the installer on a $(sed -rn 's/model=(.*)/\1/p' /tmp/config/miio/device.conf) instead of ${DEVICEMODEL}."
 	exit 1
 fi
 
 echo "check image file size"
 maximumsize=26000000
 minimumsize=20000000
-actualsize=$(wc -c < /data/rootfs.img)
+actualsize=$(wc -c < /tmp/rootfs.img)
 if [ $actualsize -ge $maximumsize ]; then
 	echo "(!!!) rootfs.img looks to big. The size might exceed the available space on the flash. Aborting the installation"
 	exit 1
@@ -33,8 +33,8 @@ if [ $actualsize -le $minimumsize ]; then
 	exit 1
 fi
 
-if [[ -f /data/boot.img ]]; then
-	if [[ -f /data/rootfs.img ]]; then
+if [[ -f /tmp/boot.img ]]; then
+	if [[ -f /tmp/rootfs.img ]]; then
 		echo "Checking integrity"
 		md5sum -c firmware.md5sum
 		if [ $? -ne 0 ]; then
@@ -66,9 +66,9 @@ if [[ -f /data/boot.img ]]; then
 				ROOT_PARTITION=rootfs1
 		fi
 		echo "Installing Kernel"
-		dd if=/data/boot.img of=${BOOT_PART} bs=8192
+		dd if=/tmp/boot.img of=${BOOT_PART} bs=8192
 		echo "Installing OS"
-		dd if=/data/rootfs.img of=${ROOT_FS_PART} bs=8192
+		dd if=/tmp/rootfs.img of=${ROOT_FS_PART} bs=8192
 		
 		if [ $? -eq 0 ]
 		then
@@ -101,8 +101,8 @@ if [[ -f /data/boot.img ]]; then
 		fi
 
 	else
-		echo "(!!!) rootfs.img not found in /data"
+		echo "(!!!) rootfs.img not found in /tmp"
 	fi
 else
-	echo "(!!!) boot.img not found in /data"
+	echo "(!!!) boot.img not found in /tmp"
 fi

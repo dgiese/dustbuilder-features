@@ -21,17 +21,28 @@ if [ $? -eq 1 ]; then
 fi
 
 if grep -q "boot_fs=a" /proc/cmdline; then
+then
 		echo "We are currently on rootfs1, will installing on rootfs2"
-		BOOT_PART=/dev/nandd
-		ROOT_FS_PART=/dev/nandf
+		BOOT_PART=/dev/by-name/boot2
+		ROOT_FS_PART=/dev/by-name/rootfs2
+		BOOT_PARTITION=boot2
+		ROOT_PARTITION=rootfs2
 elif grep -q "boot_fs=b" /proc/cmdline; then
 		echo "We are currently on rootfs2, will installing on rootfs1"
-		BOOT_PART=/dev/nandc
-		ROOT_FS_PART=/dev/nande
+		BOOT_PART=/dev/by-name/boot1
+		ROOT_FS_PART=/dev/by-name/rootfs1
+		BOOT_PARTITION=boot1
+		ROOT_PARTITION=rootfs1
 else
 		echo "(!!!) unsupported boot configuration!"
 		exit 1
 fi
+
+echo "preparing installation"
+cp /bin/busybox /tmp/busybox
+chmod +x /tmp/busybox
+ln -s /tmp/busybox /tmp/reboot
+ln -s /tmp/busybox /tmp/bash
 
 echo "check image file size"
 maximumsize=26000000
@@ -55,30 +66,30 @@ if [[ -f /mnt/data/boot.img ]]; then
 			exit 1
 		fi
 		echo "Start installation ..."
-		echo "Installing Kernel"
-		dd if=/mnt/data/boot.img of=${BOOT_PART} bs=8192
-		echo "Installing OS"
-		dd if=/mnt/data/rootfs.img of=${ROOT_FS_PART} bs=8192
-		
-		echo "Trying to mount system"
-		mkdir /tmp/system
-		mount ${ROOT_FS_PART} /tmp/system
-		if [ ! -f /tmp/system/build.txt ]; then
+		echo "Installing Kernel on kernel_a"
+		dd if=/mnt/data/boot.img of=/dev/nandc bs=8192
+		echo "Installing Kernel on kernel_b"
+		dd if=/mnt/data/boot.img of=/dev/nandd bs=8192
+		rm /mnt/data/boot.img
+		echo "Installing OS in system_b"
+		dd if=/mnt/data/rootfs.img of=/dev/nandf bs=8192
+		echo "Trying to mount system_b"
+		mkdir /tmp/system_b
+		mount /dev/nandf /tmp/system_b
+		if [ ! -f /tmp/system_b/build.txt ]; then
 			echo "(!!!) Did not found marker in updated firmware. Update likely failed, wont update system_a."
 			exit 1
 		fi
-	
-		if grep -q "boot_fs=a" /proc/cmdline; then
-			echo "Setting next boot to B"
-			echo -n -e '\xf1' | dd of=/dev/nanda bs=1 seek=323840
-		elif grep -q "boot_fs=b" /proc/cmdline; then
-			echo "Setting next boot to A"
-			echo -n -e '\xf0' | dd of=/dev/nanda bs=1 seek=323840
-		fi
+		rm /mnt/data/rootfs.img
+		rm /mnt/data/firmware.md5sum
+		echo "Installing OS in system_a"
+		/sbin/reboot -h >/dev/null 2>&1
+		/tmp/reboot -h >/dev/null 2>&1
+		dd if=/dev/nandf of=/dev/nande bs=8192
+		/tmp/reboot
 
 		echo "----------------------------------------------------------------------------------"
-		echo "Done, please reboot and check if the robot boots the new firmware"
-		echo "Repeat installion after rebooting, if everything works"
+		echo "Done, rebooting"
 		echo "Dont forget to delete the installer files after rebooting"
 		echo "----------------------------------------------------------------------------------"
 	else
