@@ -14,7 +14,7 @@ echo " Version: ${DEVICEMODEL}"
 echo " Use at your own risk"
 echo "---------------------------------------------------------------------------"
 
-grep -xq "^model=${DEVICEMODEL}$" /tmp/config/miio/device.conf
+grep -xq "^model=${DEVICEMODEL}$" /data/config/miio/device.conf
 if [ $? -eq 1 ]; then
 	echo "(!!!) It seems you are trying to run the installer on a $(sed -rn 's/model=(.*)/\1/p' /tmp/config/miio/device.conf) instead of ${DEVICEMODEL}."
 	exit 1
