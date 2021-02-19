@@ -44,6 +44,8 @@ fi
 if [[ -f /mnt/data/disk.img ]]; then
 	echo "Installing(this make take a few minutes) ..."
 	dd if=/mnt/data/disk.img of=/dev/mmcblk0p9
+	echo "marking System_B as GOOD"
+	echo -n -e '\x1' | dd conv=notrunc of="/dev/mmcblk0p5" bs=1 count=1 seek=311552
 	echo "marking System_A as BAD (this is expected)"
 	echo -n -e '\x4' | dd conv=notrunc of="/dev/mmcblk0p5" bs=1 count=1 seek=309504
 	mkdir /mnt/a
