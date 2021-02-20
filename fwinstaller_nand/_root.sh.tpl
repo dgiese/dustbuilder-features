@@ -1,5 +1,11 @@
 #!/bin/bash
 if [[ -f /mnt/data/valetudo ]]; then
+	if grep -q "cfg_by=tuya" /mnt/data/miio/wifi.conf; then
+		sed -i "s/cfg_by=tuya/cfg_by=miot/g" /mnt/data/miio/wifi.conf
+		echo region=us >> /mnt/data/miio/wifi.conf
+		echo 0 > /mnt/data/miio/device.uid
+		echo "de" > /mnt/data/miio/device.country
+	fi
 	ip addr add 203.0.113.1 dev lo
 	VALETUDO_CONFIG_PATH=/mnt/data/valetudo_config.json /mnt/data/valetudo >> /tmp/valetudo.log 2>&1 &
 fi
