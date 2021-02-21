@@ -1,7 +1,7 @@
 #!/bin/bash
 # Author: Dennis Giese [dgiese at dontvacuum.me]
 # Copyright 2020 by Dennis Giese
-# 
+#
 # Intended to work on s5e,p5,a08,a11
 #
 DEVICEMODEL="CHANGEDEVICEMODELCHANGE"
@@ -37,11 +37,11 @@ echo "check image file size"
 maximumsize=26000000
 minimumsize=20000000
 actualsize=$(wc -c < /mnt/data/rootfs.img)
-if [ $actualsize -ge $maximumsize ]; then
+if [ "$actualsize" -ge "$maximumsize" ]; then
 	echo "(!!!) rootfs.img looks to big. The size might exceed the available space on the flash. Aborting the installation"
 	exit 1
 fi
-if [ $actualsize -le $minimumsize ]; then
+if [ "$actualsize" -le "$minimumsize" ]; then
 	echo "(!!!) rootfs.img looks to small. Maybe something went wrong with the image generation. Aborting the installation"
 	exit 1
 fi
@@ -59,7 +59,7 @@ if [[ -f /mnt/data/boot.img ]]; then
 		dd if=/mnt/data/boot.img of=${BOOT_PART} bs=8192
 		echo "Installing OS"
 		dd if=/mnt/data/rootfs.img of=${ROOT_FS_PART} bs=8192
-		
+
 		echo "Trying to mount system"
 		mkdir /tmp/system
 		mount ${ROOT_FS_PART} /tmp/system
@@ -67,7 +67,7 @@ if [[ -f /mnt/data/boot.img ]]; then
 			echo "(!!!) Did not found marker in updated firmware. Update likely failed, wont update system_a."
 			exit 1
 		fi
-	
+
 		if grep -q "boot_fs=a" /proc/cmdline; then
 			echo "Setting next boot to B"
 			echo -n -e '\xf1' | dd of=/dev/nanda bs=1 seek=323840

@@ -1,7 +1,7 @@
 #!/bin/bash
 # Author: Dennis Giese [dgiese at dontvacuum.me]
 # Copyright 2020 by Dennis Giese
-# 
+#
 # Intended to work on mc1808,p2008,p2009
 #
 DEVICEMODEL="CHANGEDEVICEMODELCHANGE"
@@ -24,11 +24,11 @@ echo "check image file size"
 maximumsize=26000000
 minimumsize=20000000
 actualsize=$(wc -c < /tmp/rootfs.img)
-if [ $actualsize -ge $maximumsize ]; then
+if [ "$actualsize" -ge "$maximumsize" ]; then
 	echo "(!!!) rootfs.img looks to big. The size might exceed the available space on the flash. Aborting the installation"
 	exit 1
 fi
-if [ $actualsize -le $minimumsize ]; then
+if [ "$actualsize" -le "$minimumsize" ]; then
 	echo "(!!!) rootfs.img looks to small. Maybe something went wrong with the image generation. Aborting the installation"
 	exit 1
 fi
@@ -41,15 +41,15 @@ if [[ -f /tmp/boot.img ]]; then
 			echo "(!!!) integrity check failed. Firmware files are damaged. Please re-download the firmware. Aborting the installation"
 			exit 1
 		fi
-		
-		#set -x
-		source /usr/bin/config		
-		
-		echo "Start installation ..."
-		
-		BOOT_MODE=`fw_printenv boot_partition`
 
-		echo ${BOOT_MODE} | grep boot1
+		#set -x
+		source /usr/bin/config
+
+		echo "Start installation ..."
+
+		BOOT_MODE=$(fw_printenv boot_partition)
+
+		echo "${BOOT_MODE}" | grep boot1
 
 		if [ $? -eq 0 ]
 		then
@@ -69,7 +69,7 @@ if [[ -f /tmp/boot.img ]]; then
 		dd if=/tmp/boot.img of=${BOOT_PART} bs=8192
 		echo "Installing OS"
 		dd if=/tmp/rootfs.img of=${ROOT_FS_PART} bs=8192
-		
+
 		if [ $? -eq 0 ]
 		then
 				echo "Trying to mount system"
@@ -79,7 +79,7 @@ if [[ -f /tmp/boot.img ]]; then
 					echo "(!!!) Mount failed. Update likely failed, wont change the boot order"
 					exit 1
 				fi
-				
+
 				if [ -f /mnt/build.txt ]; then
 						fw_setenv boot_partition ${BOOT_PARTITION}
 						fw_setenv root_partition ${ROOT_PARTITION}

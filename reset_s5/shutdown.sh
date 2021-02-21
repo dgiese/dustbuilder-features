@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# shellcheck disable=SC2034
 _DEV="/dev/mmcblk0p5"
 _LOG_FILE="/var/log/factory_reset_detection.log"
 _OFFSET_PARTITION_A=0x4b900
@@ -18,7 +19,7 @@ for offset in $_OFFSET_PARTITION_A $_OFFSET_PARTITION_B ; do
 done
 
 if [ $_RESET_DETECTET -ne 0 ] ; then
-    echo -n $(date) >> "$_LOG_FILE"
+    date >> "$_LOG_FILE"
     echo " - Attempted factory reset detected and prevented" >> "$_LOG_FILE"
 fi
 

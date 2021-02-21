@@ -7,7 +7,7 @@ mkdir -p /var/log/upstart
 
 while :; do
     sleep 5
-    if [ `cut -d. -f1 /proc/uptime` -lt 300 ]; then
+    if [ "$(cut -d"." -f1 /proc/uptime)" -lt 300 ]; then
         echo -n "Waiting for 20 sec after boot..."
         sleep 20
         echo " done."
