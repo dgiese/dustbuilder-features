@@ -16,9 +16,9 @@ actual=$(/bin/dd if="/dev/mmcblk0p5" bs=1 count=1 skip=309504 | /usr/bin/base64)
 if [ "$_SHALLNOT" == "$actual" ] ; then
 	  date >> "$_LOG_FILE"
 		echo -n " 309504" >> "$_LOG_FILE"
-		echo -n $_SHALL >> "$_LOG_FILE"
+		echo -n "$_SHALL" >> "$_LOG_FILE"
 		echo -n " " >> "$_LOG_FILE"
-		echo -n $actual >> "$_LOG_FILE"
+		echo -n "$actual" >> "$_LOG_FILE"
 		echo -n " " >> "$_LOG_FILE"
 		echo " - bad partition flag detected for systemA" >> "$_LOG_FILE"
         _RESET_DETECTED=1
