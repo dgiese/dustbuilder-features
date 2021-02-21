@@ -18,7 +18,7 @@ for offset in $_OFFSET_PARTITION_A $_OFFSET_PARTITION_B ; do
 done
 
 if [ $_RESET_DETECTET -ne 0 ] ; then
-    echo -n $(date) >> "$_LOG_FILE"
+    date >> "$_LOG_FILE"
     echo " - Attempted factory reset detected and prevented" >> "$_LOG_FILE"
 fi
 

@@ -1,3 +1,4 @@
+#!/usr/bin/env sh
 rm -rf ./root-dir
 for f in ./*.deb
 do
