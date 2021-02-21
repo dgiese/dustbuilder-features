@@ -1,23 +1,15 @@
 #!/bin/sh
 
+export VALETUDO_CONFIG_PATH=/mnt/data/valetudo_config.json
+
 load() {
-    curtime=`cat /proc/uptime | awk -F ' ' '{print $1}'`
-    echo "[$curtime] start valetudo-daemon"
-    start-stop-daemon -S -b -q -m -p /var/run/valetudo-daemon.pid -x /usr/local/bin/valetudo-daemon.sh
+    echo "starting valetudo"
+    start-stop-daemon -S -b -q -m -p /var/run/valetudo.pid -x /usr/local/bin/valetudo
 }
 
 unload() {
-    echo "stopping valetudo" >/dev/kmsg
-    start-stop-daemon -K -q -p /var/run/valetudo-daemon.pid
-    while killall valetudo; do sleep 1; done
-}
-
-status() {
-    if [ ! -f /var/run/valetudo-daemon.pid -o -z "$(ps | grep `cat /var/run/valetudo-daemon.pid` | grep -v grep)" ]; then
-        echo "valetudo seems stopped"
-    else
-        echo "valetudo seems started"
-    fi
+    echo "stopping valetudo"
+    start-stop-daemon -K -q -p /var/run/valetudo.pid
 }
 
 case "$1" in
@@ -31,11 +23,8 @@ case "$1" in
         unload
         load
         ;;
-    status)
-        status
-        ;;
     *)
-        echo "$0 <start/stop/restart/status>"
+        echo "$0 <start/stop/restart>"
         ;;
 esac
 
