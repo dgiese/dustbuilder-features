@@ -1,20 +1,20 @@
-#!/bin/bash
+#!/bin/ash
 # Author: Dennis Giese [dgiese at dontvacuum.me]
 # Copyright 2020 by Dennis Giese
 #
-# Intended to work on mc1808,p2008,p2009
+# Intended to work on mc1808,p2008,p2009,p2041
 #
 DEVICEMODEL="CHANGEDEVICEMODELCHANGE"
 
 echo "---------------------------------------------------------------------------"
 echo " Dreame manual Firmware installer"
 echo " Copyright 2020 by Dennis Giese [dgiese at dontvacuum.me]"
-echo " Intended to work on mc1808,p2008,p2009"
+echo " Intended to work on mc1808,p2008,p2009,p2041"
 echo " Version: ${DEVICEMODEL}"
 echo " Use at your own risk"
 echo "---------------------------------------------------------------------------"
 
-grep -xq "^model=${DEVICEMODEL}$" /data/config/miio/device.conf
+grep "model=${DEVICEMODEL}" /data/config/miio/device.conf
 if [ $? -eq 1 ]; then
 	echo "(!!!) It seems you are trying to run the installer on a $(sed -rn 's/model=(.*)/\1/p' /tmp/config/miio/device.conf) instead of ${DEVICEMODEL}."
 	exit 1
