@@ -21,7 +21,7 @@ if [ $? -eq 1 ]; then
 fi
 
 echo "check image file size"
-maximumsize=26000000
+maximumsize=30000000
 minimumsize=20000000
 actualsize=$(wc -c < /tmp/rootfs.img)
 if [ "$actualsize" -ge "$maximumsize" ]; then
