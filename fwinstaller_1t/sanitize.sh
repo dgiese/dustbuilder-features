@@ -6,3 +6,5 @@ rm ./squashfs-root/usr/bin/backup_key.sh
 rm ./squashfs-root/usr/bin/curl_download.sh
 rm ./squashfs-root/usr/bin/curl_upload.sh
 rm ./squashfs-root/usr/bin/packlog.sh
+sed -i "s/dibEPK917k/Gi29djChze/" ./squashfs-root/etc/*
+sed -i "s/md5sum/sha1sum/" ./squashfs-root/etc/rc.d/*

@@ -21,7 +21,7 @@ if [ $? -eq 1 ]; then
 fi
 
 echo "check image file size"
-maximumsize=56000000
+maximumsize=60000000
 minimumsize=20000000
 actualsize=$(wc -c < /tmp/rootfs.img)
 if [ "$actualsize" -ge "$maximumsize" ]; then
@@ -35,71 +35,25 @@ fi
 
 if [[ -f /tmp/boot.img ]]; then
 	if [[ -f /tmp/rootfs.img ]]; then
-		echo "Checking integrity"
-		md5sum -c firmware.md5sum
-		if [ $? -ne 0 ]; then
-			echo "(!!!) integrity check failed. Firmware files are damaged. Please re-download the firmware. Aborting the installation"
-			exit 1
-		fi
+		if [[ -f /tmp/mcu.bin ]]; then
+			echo "Checking integrity"
+			md5sum -c firmware.md5sum
+			if [ $? -ne 0 ]; then
+				echo "(!!!) integrity check failed. Firmware files are damaged. Please re-download the firmware. Aborting the installation"
+				exit 1
+			fi
 
-		#set -x
-		source /usr/bin/config
+			echo "Start installation ... the robot will automatically reboot after the installation is complete"
 
-		echo "Start installation ..."
-
-		BOOT_MODE=$(fw_printenv boot_partition)
-
-		echo "${BOOT_MODE}" | grep boot1
-
-		if [ $? -eq 0 ]
-		then
-				echo "We are currently on rootfs1, will installing on rootfs2"
-				BOOT_PART=/dev/by-name/boot2
-				ROOT_FS_PART=/dev/by-name/rootfs2
-				BOOT_PARTITION=boot2
-				ROOT_PARTITION=rootfs2
+			mkdir -p /tmp/update
+			mv /tmp/boot.img /tmp/update/
+			mv /tmp/rootfs.img /tmp/update/
+			mv /tmp/mcu.bin /tmp/update/
+			
+			avacmd ota  '{"type": "ota", "cmd": "report_upgrade_status", "status": "AVA_UNPACK_OK", "result": "ok"}'
 		else
-				echo "We are currently on rootfs2, will installing on rootfs1"
-				BOOT_PART=/dev/by-name/boot1
-				ROOT_FS_PART=/dev/by-name/rootfs1
-				BOOT_PARTITION=boot1
-				ROOT_PARTITION=rootfs1
+			echo "(!!!) mcu.bin not found in /tmp"
 		fi
-		echo "Installing Kernel"
-		dd if=/tmp/boot.img of=${BOOT_PART} bs=8192
-		echo "Installing OS"
-		dd if=/tmp/rootfs.img of=${ROOT_FS_PART} bs=8192
-
-		if [ $? -eq 0 ]
-		then
-				echo "Trying to mount system"
-				mount ${ROOT_FS_PART} /mnt
-				if [ $? -ne 0 ]; then
-					sync
-					echo "(!!!) Mount failed. Update likely failed, wont change the boot order"
-					exit 1
-				fi
-
-				if [ -f /mnt/build.txt ]; then
-						fw_setenv boot_partition ${BOOT_PARTITION}
-						fw_setenv root_partition ${ROOT_PARTITION}
-						echo "----------------------------------------------------------------------------------"
-						echo "Done, rebooting"
-						echo "Dont forget to delete the installer files after rebooting"
-						echo "----------------------------------------------------------------------------------"
-						sync
-						reboot -n -f
-				else
-				  sync
-				  echo "(!!!) Did not found marker in updated firmware. Update likely failed, wont change the boot order"
-				  exit 1
-				fi
-		else
-			sync
-			echo "(!!!) DD returned an error. Update likely failed, wont change the boot order"
-			exit 1
-		fi
-
 	else
 		echo "(!!!) rootfs.img not found in /tmp"
 	fi
