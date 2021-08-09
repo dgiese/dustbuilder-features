@@ -114,7 +114,7 @@ request_dtoken() {
     else
         echo ${dtoken_token} > ${dtoken_file}
     fi
-    
+
     if [ -e ${dcountry_file} ]; then
         dcountry_country=`cat ${dcountry_file}`
     else
@@ -177,6 +177,9 @@ sanity_check() {
 }
 
 main() {
+    if [ ! -f $IOT_FLAG ]; then
+        touch $IOT_FLAG
+    fi
     while true; do
     BUF=`$MIIO_RECV_LINE`
     if [ $? -ne 0 ]; then
@@ -254,6 +257,9 @@ main() {
         log "$REQ_WIFI_CONF_STATUS_RESPONSE"
         $MIIO_SEND_LINE "$REQ_WIFI_CONF_STATUS_RESPONSE"
     elif contains "$BUF" "_internal.wifi_start"; then
+
+        # newer dreame robots need this to function correctly on miio_client downgrade
+        printf "miiot" > $IOT_FLAG
 
         wificonf_dir2=$(echo "$BUF" | $JSHON -e params -e datadir -u)
         miio_ssid=$(echo "$BUF" | $JSHON -e params -e ssid -u)
