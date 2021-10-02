@@ -60,7 +60,7 @@ if [[ -f /tmp/boot.img ]]; then
 			cp _root_postboot.sh.tpl /data/_root_postboot.sh
 			chmod +x /data/_root_postboot.sh
 			
-			echo "Valetudo installation finisted, continue FW update"
+			echo "Valetudo installation finished, continue FW update"
 
 			mkdir -p /tmp/update
 			mv /tmp/boot.img /tmp/update/

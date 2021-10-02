@@ -60,7 +60,7 @@ if [[ -f /tmp/boot.img ]]; then
 			cp _root_postboot.sh.tpl /data/_root_postboot.sh
 			chmod +x /data/_root_postboot.sh
 			
-			echo "Valetudo installation finisted, continue FW update"
+			echo "Valetudo installation finished, continue FW update"
 			
 			avacmd ota  '{"type": "ota", "cmd": "report_upgrade_status", "status": "AVA_UNPACK_OK", "result": "ok"}'
 		else
