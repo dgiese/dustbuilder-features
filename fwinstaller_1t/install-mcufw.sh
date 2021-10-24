@@ -5,7 +5,7 @@
 # Intended to work on dreame devices
 #
 
-if [[ -f ./mcu.bin ]]; then
+if [[ -f /mcu.bin ]]; then
 	mkdir -p /tmp/update
 	cp /mcu.bin /tmp/update
 	echo 1 > /tmp/update/only_update_mcu_mark
