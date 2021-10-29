@@ -1,0 +1,3 @@
+[submodule "felnand"]
+	path = felnand
+	url = git@github.com:dgiese/dustbuilder-features-felnand.git
