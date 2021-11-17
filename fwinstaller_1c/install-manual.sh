@@ -16,7 +16,7 @@ echo "--------------------------------------------------------------------------
 
 grep "model=${DEVICEMODEL}" /data/config/miio/device.conf
 if [ $? -eq 1 ]; then
-	echo "(!!!) It seems you are trying to run the installer on a $(sed -rn 's/model=(.*)/\1/p' /tmp/config/miio/device.conf) instead of ${DEVICEMODEL}."
+	echo "(!!!) It seems you are trying to run the installer on a $(sed -rn 's/model=(.*)/\1/p' /data/config/miio/device.conf) instead of ${DEVICEMODEL}."
 	echo "(!!!) Aborting installation. DO NOT TRY to modify the installer to install the firmware anyway. You will likely brick your device!"
 	exit 1
 fi
