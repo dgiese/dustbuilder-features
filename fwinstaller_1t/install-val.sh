@@ -45,7 +45,7 @@ if [[ -f ./boot.img ]]; then
 				exit 1
 			fi
 
-			echo "Start installation ... the robot will automatically reboot after the installation is complete"
+			echo "Start installation ... the robot will automatically reboot after the installation is complete (DO NOT REBOOT YOURSELF)"
 			
 			mkdir -p /tmp/update
 			mv ./boot.img /tmp/update/
@@ -63,11 +63,6 @@ if [[ -f ./boot.img ]]; then
 			chmod +x /data/_root_postboot.sh
 			
 			echo "Valetudo installation finished, continue FW update"
-
-			mkdir -p /tmp/update
-			mv /tmp/boot.img /tmp/update/
-			mv /tmp/rootfs.img /tmp/update/
-			mv /tmp/mcu.bin /tmp/update/
 			
 			avacmd ota  '{"type": "ota", "cmd": "report_upgrade_status", "status": "AVA_UNPACK_OK", "result": "ok"}'
 		else
