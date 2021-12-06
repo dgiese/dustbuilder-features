@@ -1,0 +1,47 @@
+diff -ru dropbear-2020.81/default_options.h dropbear-2020.81-1T/default_options.h
+--- dropbear-2020.81/default_options.h 2020-10-29 13:35:50.000000000 +0000
++++ dropbear-2020.81-1T/default_options.h       2021-01-13 05:36:00.000000000 +0000
+@@ -309,6 +309,6 @@
+ #define DEFAULT_IDLE_TIMEOUT 0
+
+ /* The default path. This will often get replaced by the shell */
+-#define DEFAULT_PATH "/usr/bin:/bin"
++#define DEFAULT_PATH "/usr/bin:/usr/sbin/:/bin:/sbin:/usr/local/bin:/usr/local/sbin:/data"
+
+ #endif /* DROPBEAR_DEFAULT_OPTIONS_H_ */
+diff -ru dropbear-2020.81/svr-authpubkey.c dropbear-2020.81-1T/svr-authpubkey.c
+--- dropbear-2020.81/svr-authpubkey.c  2020-10-29 13:35:50.000000000 +0000
++++ dropbear-2020.81-1T/svr-authpubkey.c        2020-11-19 11:22:41.000000000 +0000
+@@ -481,21 +481,21 @@
+        strlcpy(filename, ses.authstate.pw_dir, len);
+
+        /* check ~ */
+-       if (checkfileperm(filename) != DROPBEAR_SUCCESS) {
+-               goto out;
+-       }
++//     if (checkfileperm(filename) != DROPBEAR_SUCCESS) {
++//             goto out;
++//     }
+
+        /* check ~/.ssh */
+-       strlcat(filename, "/.ssh", len);
+-       if (checkfileperm(filename) != DROPBEAR_SUCCESS) {
+-               goto out;
+-       }
++//     strlcat(filename, "/.ssh", len);
++//     if (checkfileperm(filename) != DROPBEAR_SUCCESS) {
++//             goto out;
++//     }
+
+        /* now check ~/.ssh/authorized_keys */
+-       strlcat(filename, "/authorized_keys", len);
+-       if (checkfileperm(filename) != DROPBEAR_SUCCESS) {
+-               goto out;
+-       }
++//     strlcat(filename, "/authorized_keys", len);
++//     if (checkfileperm(filename) != DROPBEAR_SUCCESS) {
++//             goto out;
++//     }
+
+        /* file looks ok, return success */
+        ret = DROPBEAR_SUCCESS;

@@ -1,0 +1,36 @@
+diff -ru dropbear-2020.81/svr-authpubkey.c dropbear-2020.81-RR/svr-authpubkey.c
+--- dropbear-2020.81/svr-authpubkey.c  2020-10-29 13:35:50.000000000 +0000
++++ dropbear-2020.81-RR/svr-authpubkey.c        2020-12-09 13:15:09.000000000 +0000
+@@ -481,21 +481,21 @@
+        strlcpy(filename, ses.authstate.pw_dir, len);
+
+        /* check ~ */
+-       if (checkfileperm(filename) != DROPBEAR_SUCCESS) {
+-               goto out;
+-       }
++//     if (checkfileperm(filename) != DROPBEAR_SUCCESS) {
++//             goto out;
++//     }
+
+        /* check ~/.ssh */
+-       strlcat(filename, "/.ssh", len);
+-       if (checkfileperm(filename) != DROPBEAR_SUCCESS) {
+-               goto out;
+-       }
++//     strlcat(filename, "/.ssh", len);
++//     if (checkfileperm(filename) != DROPBEAR_SUCCESS) {
++//             goto out;
++//     }
+
+        /* now check ~/.ssh/authorized_keys */
+-       strlcat(filename, "/authorized_keys", len);
+-       if (checkfileperm(filename) != DROPBEAR_SUCCESS) {
+-               goto out;
+-       }
++//     strlcat(filename, "/authorized_keys", len);
++//     if (checkfileperm(filename) != DROPBEAR_SUCCESS) {
++//             goto out;
++//     }
+
+        /* file looks ok, return success */
+        ret = DROPBEAR_SUCCESS;
