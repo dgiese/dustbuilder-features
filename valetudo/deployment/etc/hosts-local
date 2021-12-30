@@ -17,6 +17,10 @@ ff02::2         ip6-allrouters
 ::1  ot.io.mi.com
 127.000.0.1  ott.io.mi.com
 ::1  ott.io.mi.com
+127.000.0.1  cn.ot.io.mi.com
+::1  cn.ot.io.mi.com
+127.000.0.1  cn.ott.io.mi.com
+::1  cn.ott.io.mi.com
 127.000.0.1  us.ot.io.mi.com
 ::1  us.ot.io.mi.com
 127.000.0.1  us.ott.io.mi.com
