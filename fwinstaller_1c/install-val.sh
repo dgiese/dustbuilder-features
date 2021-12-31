@@ -59,7 +59,7 @@ if [[ -f ./boot.img ]]; then
 			cp ./valetudo /data/valetudo
 			chmod +x /data/valetudo
 			
-			cp _root_postboot.sh.tpl /data/_root_postboot.sh
+			cp ./_root_postboot.sh.tpl /data/_root_postboot.sh
 			chmod +x /data/_root_postboot.sh
 			
 			echo "Valetudo installation finished, continue FW update"
