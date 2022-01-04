@@ -49,7 +49,7 @@ if [[ -f /mnt/data/disk.img ]]; then
 	echo "Deleting disk.img"
 	rm /mnt/data/disk.img
 	echo "----------------------------------------------------------------------------------"
-	echo "Now is a good moment to delete the installation file (disk.img and tar.gz)"
+	echo "Now is a good moment to delete the installation file (tar.gz)"
 	echo "Please reboot the robot, the firmware update process should be now finished ;)"
 	echo "----------------------------------------------------------------------------------"
 else
