@@ -2,7 +2,7 @@
 if [[ -f /mnt/data/valetudo ]]; then
 	mkdir -p /mnt/data/miio/
 	
-	if grep -q "cfg_by=tuya" /mnt/data/miio/wifi.conf; then
+	if grep -q -e "cfg_by=tuya" -e "cfg_by=rriot" /mnt/data/miio/wifi.conf; then
 		sed -i "s/cfg_by=tuya/cfg_by=miot/g" /mnt/data/miio/wifi.conf
 		sed -i "s/cfg_by=rriot/cfg_by=miot/g" /mnt/data/miio/wifi.conf
 		echo region=de >> /mnt/data/miio/wifi.conf
