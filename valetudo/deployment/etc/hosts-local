@@ -91,4 +91,5 @@ ff02::2         ip6-allrouters
 ::1  iot.roborock.com
 127.000.0.1  device.dreame.tech
 ::1  device.dreame.tech
-
+127.000.0.1  pmaplog.dreame.tech
+::1  pmaplog.dreame.tech
