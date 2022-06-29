@@ -1,6 +1,7 @@
 #!/bin/sh
-echo 0 > /sys/module/8189fs/parameters/rtw_power_mgnt
-echo 2 > /sys/module/8189fs/parameters/rtw_ips_mode
+
+#echo 0 > /sys/module/8189fs/parameters/rtw_power_mgnt
+#echo 2 > /sys/module/8189fs/parameters/rtw_ips_mode
 iw dev wlan0 set power_save off
 
 
