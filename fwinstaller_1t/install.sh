@@ -52,7 +52,10 @@ if [[ -f ./boot.img ]]; then
 			mv ./boot.img /tmp/update/
 			mv ./rootfs.img /tmp/update/
 			mv ./mcu.bin /tmp/update/
-			
+			if [[ -f ./UI.bin ]]; then
+				mv ./UI.bin /tmp/update/
+			fi
+
 			avacmd ota  '{"type": "ota", "cmd": "report_upgrade_status", "status": "AVA_UNPACK_OK", "result": "ok"}'
 		else
 			echo "(!!!) mcu.bin not found"
