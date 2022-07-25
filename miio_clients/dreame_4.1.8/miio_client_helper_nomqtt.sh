@@ -273,6 +273,11 @@ save_wifi_conf() {
     miio_passwd=$3
     miio_uid=$4
     miio_country=$5
+	
+	datadir=`echo $datadir | xargs echo`
+	rm -f $datadir/wifi.conf
+	
+	echo "ssid=\"$miio_ssid\"" > $datadir/wifi.conf
     if [ x"$miio_passwd" = x ]; then
         miio_key_mgmt="NONE"
     else
@@ -282,19 +287,16 @@ save_wifi_conf() {
             log "pwd is too short:${LEN}"
             return 1
         fi
-
+        	
         miio_key_mgmt="WPA"
         wpa_passphrase "$miio_ssid" "$miio_passwd" > /tmp/psk.log
         if [ $? -eq 0 ]; then
             miio_passwd=`grep -v "#psk" /tmp/psk.log | grep "psk" | awk '{print $1}'`
             miio_passwd=${miio_passwd#*psk=}
+			echo "psk=$miio_passwd" >> $datadir/wifi.conf
         fi
     fi
 
-    datadir=`echo $datadir | xargs echo`
-
-    echo "ssid=\"$miio_ssid\"" > $datadir/wifi.conf
-    echo "psk=\"$miio_passwd\"" >> $datadir/wifi.conf
     echo "key_mgmt=$miio_key_mgmt" >> $datadir/wifi.conf
     if [ $miio_uid -ne 0 ]; then
         echo "uid=$miio_uid" >> $datadir/wifi.conf
