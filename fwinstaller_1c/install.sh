@@ -2,14 +2,14 @@
 # Author: Dennis Giese [dgiese at dontvacuum.me]
 # Copyright 2020 by Dennis Giese
 #
-# Intended to work on mc1808,p2008,p2009,p2041
+# Intended to work on mc1808,p2008,p2009,p2028,p2029,p2041
 #
 DEVICEMODEL="CHANGEDEVICEMODELCHANGE"
 
 echo "---------------------------------------------------------------------------"
 echo " Dreame manual Firmware installer"
 echo " Copyright 2020 by Dennis Giese [dgiese at dontvacuum.me]"
-echo " Intended to work on mc1808,p2008,p2009,p2041"
+echo " Intended to work on mc1808,p2008,p2009,p2028,p2029,p2041"
 echo " Version: ${DEVICEMODEL}"
 echo " Use at your own risk"
 echo "---------------------------------------------------------------------------"
@@ -52,6 +52,12 @@ if [[ -f ./boot.img ]]; then
 			mv ./boot.img /tmp/update/
 			mv ./rootfs.img /tmp/update/
 			mv ./mcu.bin /tmp/update/
+			if [[ -f ./UI.bin ]]; then
+				mv ./UI.bin /tmp/update/
+			fi
+			if [[ -f ./UIMA.bin ]]; then
+				mv ./UI*.bin /tmp/update/
+			fi
 			
 			avacmd ota  '{"type": "ota", "cmd": "report_upgrade_status", "status": "AVA_UNPACK_OK", "result": "ok"}'
 		else

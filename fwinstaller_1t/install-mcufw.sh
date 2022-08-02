@@ -8,6 +8,12 @@
 if [[ -f /mcu.bin ]]; then
 	mkdir -p /tmp/update
 	cp /mcu.bin /tmp/update
+	if [[ -f /UI.bin ]]; then
+		cp /UI.bin /tmp/update/
+	fi
+	if [[ -f /UIMA.bin ]]; then
+		cp /UI*.bin /tmp/update/
+	fi
 	echo 1 > /tmp/update/only_update_mcu_mark
 	avacmd ota  '{"type": "ota", "cmd": "report_upgrade_status", "status": "AVA_UNPACK_OK", "result": "ok"}'
 else
