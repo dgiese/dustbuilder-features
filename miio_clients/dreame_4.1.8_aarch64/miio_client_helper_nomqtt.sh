@@ -100,11 +100,11 @@ request_dinfo() {
     # del all msq queue, or cause unexpected issues
     rm -f  /dev/mqueue/miio_queue*
 
-    let req_dinfo_cnt++
-    [ $req_dinfo_cnt -ge 100 ] && {
-        record_events.sh iot_error 1001;
-        killall -9 miio_client;
-    }
+    #let req_dinfo_cnt++
+    #[ $req_dinfo_cnt -ge 100 ] && {
+    #    record_events.sh iot_error 1001;
+    #    killall -9 miio_client;
+    #}
 
     dinfo_dir=$1
     dinfo_dir=${dinfo_dir##*params\":\"}
