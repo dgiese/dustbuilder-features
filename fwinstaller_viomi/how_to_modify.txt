@@ -1,0 +1,3 @@
+This firmware has two hooks, which are checked when the robot is booted:
+
+/mnt/UDISK/_root.sh  -> If this file exists, it will be executed after boot
