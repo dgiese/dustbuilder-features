@@ -1,0 +1,6 @@
+#!/bin/sh
+
+rmmod 8189es 2>&1 > /dev/null
+rmmod 8821cs 2>&1 > /dev/null
+
+/bin/busybox reboot
