@@ -37,11 +37,20 @@ if [ -f /tmp/rootfs.img ]; then
 
 			echo "Start installation ... the robot will automatically reboot after the installation is complete"
 			echo "After the reboot, you will have to reconfigure your Wi-Fi credentials"
-
 			cp /bin/busybox /tmp/
+			
+			if [[ -f /boot/uImage_verity ]]; then
+				echo "Verity device, need to patch boot"
+				umount /boot
+				/tmp/busybox dd if=/tmp/boot.img of=/dev/by-name/boot
+				mount -o rw /dev/by-name/boot /boot
+				mv /boot/uImage /boot/uImage_verity
+			else
+				umount /boot
+				/tmp/busybox dd if=/tmp/boot.img of=/dev/by-name/boot
+			fi
 
 			rm -rf /overlay/*
-			/tmp/busybox dd if=/tmp/boot.img of=/dev/by-name/boot
 			/tmp/busybox dd if=/tmp/rootfs.img of=/dev/by-name/rootfs
 
 			/tmp/busybox sync
