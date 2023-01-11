@@ -66,8 +66,14 @@ if [[ -f /mnt/data/boot.img ]]; then
 		mkdir /tmp/system
 		mount ${ROOT_FS_PART} /tmp/system
 		if [ ! -f /tmp/system/build.txt ]; then
-			echo "(!!!) Did not found marker in updated firmware. Update likely failed, wont update system_a."
-			exit 1
+			echo "(!!!) Did not found marker in updated firmware or mount the partition (maybe XZ compressed?). Will try alternative method"
+			dd if=${ROOT_FS_PART} of=/tmp/checkrootfs.img bs=1M
+			./unsquashfs /tmp/checkrootfs.img -d /tmp/squashfs-root/
+			if [ ! -f /tmp/squashfs-root/build.txt ]; then
+				echo "(!!!) Did not found marker in updated firmware. Update likely failed, wont update system_a."
+				exit 1
+			fi
+			echo "looks good, proceeding"
 		fi
 
 		if grep -q "boot_fs=a" /proc/cmdline; then
