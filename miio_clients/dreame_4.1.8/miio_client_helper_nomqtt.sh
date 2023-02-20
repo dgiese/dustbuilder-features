@@ -287,17 +287,24 @@ save_wifi_conf() {
             log "pwd is too short:${LEN}"
             return 1
         fi
-        	
+
         miio_key_mgmt="WPA"
-		echo "psk=\"$miio_passwd\"" >> $datadir/wifi.conf
-		# this breaks stuff for some dreame robots. 
-		# We will get problems with special chars in wifi passwords, but I have no clue how to fix that.
-        ###wpa_passphrase "$miio_ssid" "$miio_passwd" > /tmp/psk.log
-        ###if [ $? -eq 0 ]; then
-        ###    miio_passwd=`grep -v "#psk" /tmp/psk.log | grep "psk" | awk '{print $1}'`
-        ###    miio_passwd=${miio_passwd#*psk=}
-		###	echo "psk=$miio_passwd" >> $datadir/wifi.conf
-        ###fi
+
+        case "$PRODUCT_NAME" in
+          r2250|r2240)
+            wpa_passphrase "$miio_ssid" "$miio_passwd" > /tmp/psk.log
+            if [ $? -eq 0 ]; then
+                miio_passwd=`grep -v "#psk" /tmp/psk.log | grep "psk" | awk '{print $1}'`
+                miio_passwd=${miio_passwd#*psk=}
+                echo "psk=$miio_passwd" >> $datadir/wifi.conf
+            fi
+          ;;
+
+          *)
+            echo "psk=\"$miio_passwd\"" >> $datadir/wifi.conf
+          ;;
+        esac
+
     fi
 
     echo "key_mgmt=$miio_key_mgmt" >> $datadir/wifi.conf

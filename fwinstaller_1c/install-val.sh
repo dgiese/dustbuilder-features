@@ -68,6 +68,9 @@ if [[ -f ./boot.img ]]; then
 			cp ./_root_postboot.sh.tpl /data/_root_postboot.sh
 			chmod +x /data/_root_postboot.sh
 			
+			# Free up some space in the ramdisk (required for the W10 FW install)
+			rm ./valetudo
+
 			echo "Valetudo installation finished, continue FW update"
 			
 			avacmd ota  '{"type": "ota", "cmd": "report_upgrade_status", "status": "AVA_UNPACK_OK", "result": "ok"}'
