@@ -119,3 +119,7 @@ ff02::2         ip6-allrouters
 ::1  web-cecotec.3irobotix.net
 127.000.0.1 web-eu.3irobotix.net
 ::1  web-eu.3irobotix.net
+127.000.0.1  aiphotos.dreame.tech
+::1  aiphotos.dreame.tech
+127.000.0.1  iot.dreame.tech
+::1  iot.dreame.tech

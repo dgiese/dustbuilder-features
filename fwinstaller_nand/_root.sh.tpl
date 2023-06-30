@@ -10,6 +10,9 @@ if [[ -f /mnt/data/valetudo ]]; then
 		echo "de" > /mnt/data/miio/device.country
 	fi
 
+	# Delete useless cleanup logs on each boot to enable Valetudo to update itself
+	rm -r /mnt/data/rockrobo/rrlog/*REL
+
 	VALETUDO_CONFIG_PATH=/mnt/data/valetudo_config.json /mnt/data/valetudo >> /dev/null 2>&1 &
 fi
 
