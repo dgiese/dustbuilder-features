@@ -68,7 +68,7 @@ if [[ -f /mnt/data/boot.img ]]; then
 		if [ ! -f /tmp/system/build.txt ]; then
 			echo "(!!!) Did not found marker in updated firmware or mount the partition (maybe XZ compressed?). Will try alternative method"
 			dd if=${ROOT_FS_PART} of=/tmp/checkrootfs.img bs=1M
-			./unsquashfs /tmp/checkrootfs.img -d /tmp/squashfs-root/
+			./unsquashfs -d /tmp/squashfs-root/ /tmp/checkrootfs.img /build.txt
 			if [ ! -f /tmp/squashfs-root/build.txt ]; then
 				echo "(!!!) Did not found marker in updated firmware. Update likely failed, wont update system_a."
 				exit 1

@@ -1,7 +1,7 @@
 #!/bin/bash
 if [[ -f /mnt/data/valetudo ]]; then
 	mkdir -p /mnt/data/miio/
-	
+
 	if grep -q -e "cfg_by=tuya" -e "cfg_by=rriot" /mnt/data/miio/wifi.conf; then
 		sed -i "s/cfg_by=tuya/cfg_by=miot/g" /mnt/data/miio/wifi.conf
 		sed -i "s/cfg_by=rriot/cfg_by=miot/g" /mnt/data/miio/wifi.conf
@@ -9,6 +9,10 @@ if [[ -f /mnt/data/valetudo ]]; then
 		echo 0 > /mnt/data/miio/device.uid
 		echo "de" > /mnt/data/miio/device.country
 	fi
+
+
+	# Delete useless cleanup logs on each boot to enable Valetudo to update itself
+	rm -r /mnt/data/rockrobo/rrlog/*REL
 
 	VALETUDO_CONFIG_PATH=/mnt/data/valetudo_config.json /mnt/data/valetudo >> /dev/null 2>&1 &
 fi
