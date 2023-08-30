@@ -291,7 +291,7 @@ save_wifi_conf() {
 	miio_key_mgmt="WPA"
 
         case "$PRODUCT_NAME" in
-          r2250|r2240|r2228)
+          r2250|r2240|r2228|r2104|p2114)
             wpa_passphrase "$miio_ssid" "$miio_passwd" > /tmp/psk.log
             if [ $? -eq 0 ]; then
                 miio_passwd=`grep -v "#psk" /tmp/psk.log | grep "psk" | awk '{print $1}'`

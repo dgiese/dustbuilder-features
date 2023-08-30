@@ -46,7 +46,6 @@ if [[ -f ./boot.img ]]; then
 				exit 1
 			fi
 
-			echo "Start installation ... the robot will automatically reboot after the installation is complete"
 
 			mkdir -p /tmp/update
 			mv ./boot.img /tmp/update/
@@ -59,6 +58,30 @@ if [[ -f ./boot.img ]]; then
 				mv ./UI*.bin /tmp/update/
 			fi
 
+			if [[ -f ./valetudo ]]; then
+				echo "Preparation complete, will install valetudo first"
+
+				killall valetudo
+				rm /data/valetudo
+				cp ./valetudo /data/valetudo
+				chmod +x /data/valetudo
+
+				cp ./_root_postboot.sh.tpl /data/_root_postboot.sh
+				chmod +x /data/_root_postboot.sh
+
+				# Free up some space in the ramdisk (required for the W10 FW install)
+				rm ./valetudo
+
+				echo "Valetudo installation finished, continue FW update"
+			fi
+
+			if [[ -x ./patchBL.sh ]]; then
+				./patchBL.sh || exit 1
+			fi
+
+
+			echo "Start installation ... the robot will automatically reboot after the installation is complete"
+
 			avacmd ota  '{"type": "ota", "cmd": "report_upgrade_status", "status": "AVA_UNPACK_OK", "result": "ok"}'
 		else
 			echo "(!!!) mcu.bin not found"
@@ -69,3 +92,4 @@ if [[ -f ./boot.img ]]; then
 else
 	echo "(!!!) boot.img not found"
 fi
+

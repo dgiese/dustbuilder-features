@@ -12,6 +12,7 @@
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
 do_start() {
+    touch /tmp/_local_triggered.txt
     if [ -x /etc/rc.local ]; then
         /etc/rc.local
         ES=$?
