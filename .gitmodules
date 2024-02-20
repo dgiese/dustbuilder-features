@@ -7,3 +7,6 @@
         path = felroot
         url = git@github.com:dgiese/felroot.git
 
+[submodule "vacuumstreamer"]
+	path = vacuumstreamer
+	url = git@github.com:tihmstar/vacuumstreamer.git
