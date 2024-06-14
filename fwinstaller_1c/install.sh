@@ -59,6 +59,9 @@ if [[ -f ./boot.img ]]; then
 				mv ./UI*.bin /tmp/update/
 			fi
 			
+                        /etc/rc.d/ava.sh "ota"
+                        sleep 5
+			
 			avacmd ota  '{"type": "ota", "cmd": "report_upgrade_status", "status": "AVA_UNPACK_OK", "result": "ok"}'
 		else
 			echo "(!!!) mcu.bin not found"

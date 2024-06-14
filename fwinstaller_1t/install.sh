@@ -81,6 +81,8 @@ if [[ -f ./boot.img ]]; then
 
 
 			echo "Start installation ... the robot will automatically reboot after the installation is complete"
+			/etc/rc.d/ava.sh "ota"
+			sleep 5
 
 			avacmd ota  '{"type": "ota", "cmd": "report_upgrade_status", "status": "AVA_UNPACK_OK", "result": "ok"}'
 		else
