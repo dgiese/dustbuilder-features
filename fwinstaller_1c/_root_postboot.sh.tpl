@@ -8,7 +8,9 @@ echo 0 > /sys/module/8723ds/parameters/rtw_power_mgnt
 
 iw dev wlan0 set power_save off
 
-
+if [[ -f /data/config/ava/iot.flag ]] && grep -q "dmiot" /data/config/ava/iot.flag; then
+        rm /data/config/ava/iot.flag
+fi
 
 if [ ! "$(readlink /data/config/system/localtime)" -ef "/usr/share/zoneinfo/UTC" ]; then
         rm /data/config/system/localtime

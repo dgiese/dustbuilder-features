@@ -57,4 +57,3 @@ else
     echo "patchBL: Current uboot version matches expected uboot version"
 fi
 
-

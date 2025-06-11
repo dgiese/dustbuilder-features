@@ -91,11 +91,13 @@ ff02::2         ip6-allrouters
 ::1  iot.roborock.com
 127.000.0.1  device.dreame.tech
 ::1  device.dreame.tech
+127.000.0.1  autotest.dreame.tech
 127.000.0.1  pmaplog.dreame.tech
 127.000.0.1  dreame-eu.oss-eu-central-1.aliyuncs.com
 127.000.0.1  dreame-cn.oss-cn-shanghai.aliyuncs.com
 127.000.0.1  dreame-sg.oss-ap-southeast-1.aliyuncs.com
 127.000.0.1  dreame-us.oss-us-west-1.aliyuncs.com
+::1 autotest.dreame.tech
 ::1 dreame-eu.oss-eu-central-1.aliyuncs.com
 ::1 dreame-cn.oss-cn-shanghai.aliyuncs.com
 ::1 dreame-sg.oss-ap-southeast-1.aliyuncs.com
